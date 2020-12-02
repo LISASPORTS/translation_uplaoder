@@ -1,26 +1,15 @@
-//
-//  AppDelegate.swift
-//  TranslationUploader
-//
-//  Created by Marcin Rudnicki on 20/11/2020.
-//
-
 import Cocoa
+import FirebaseCore
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    
-
-
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        FirebaseApp.configure()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-
-
 }
 
