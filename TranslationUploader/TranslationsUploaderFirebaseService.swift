@@ -16,7 +16,7 @@ final class TranslationsUploaderFirebaseService {
 
         translationFileReference.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
-                debugPrint("Could not load language file \(translationFileName): \(error)")
+                print("Could not load language file \(translationFileName): \(error)")
             } else if let data = data {
                 do {
                     if let translationsJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String] {
@@ -47,7 +47,7 @@ final class TranslationsUploaderFirebaseService {
             let metadata = StorageMetadata()
             metadata.contentType = "application/json"
             translationFileReference.putData(dataFromString, metadata: metadata)
-            showAlert(question: "Success!", text: "Successfully added new translations")
+            showAlert(question: NSLocalizedString("Success!", comment: "translations file uploaded"), text: NSLocalizedString("Successfully added new translations", comment: ""))
             completion()
         }
     }
@@ -60,7 +60,7 @@ final class TranslationsUploaderFirebaseService {
                 return false
             }
         } catch let error {
-            showAlert(question: "Error", text: error.localizedDescription)
+            showAlert(question: NSLocalizedString("Error", comment: ""), text: error.localizedDescription)
             return false
         }
     }
@@ -70,7 +70,7 @@ final class TranslationsUploaderFirebaseService {
         alert.messageText = question
         alert.informativeText = text
         alert.alertStyle = .warning
-        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
         alert.runModal()
     }
 }

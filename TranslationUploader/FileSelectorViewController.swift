@@ -15,7 +15,6 @@ class FileSelectorViewController: NSViewController {
     private func showPicker() {
         let dialog = NSOpenPanel()
 
-        dialog.title = "Choose an image | Our Code World"
         dialog.allowedFileTypes = ["plist"]
 
         if (dialog.runModal() ==  NSApplication.ModalResponse.OK) {

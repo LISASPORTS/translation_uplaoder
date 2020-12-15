@@ -42,7 +42,7 @@ class MainViewController: NSViewController, NSTableViewDelegate, NSTableViewData
                 self?.stringsTableView.reloadData()
             }
         } else {
-            if showAlert(question: "Warning", text: "You are uploading to produciton, are you sure?") {
+            if showAlert(question: NSLocalizedString("Warning", comment: "production upload"), text: NSLocalizedString("You are uploading to produciton, are you sure?", comment: "")) {
                 firebaseUploaderService.uploadNewTranslations(translations: translations, translationFileName: filename) { [weak self] in
                     self?.translations.removeAll()
                     self?.stringsTableView.reloadData()
@@ -93,9 +93,9 @@ class MainViewController: NSViewController, NSTableViewDelegate, NSTableViewData
         alert.messageText = question
         alert.informativeText = text
         alert.alertStyle = .warning
-        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
         if shouldShowCancelButton {
-            alert.addButton(withTitle: "Cancel")
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         }
         return alert.runModal() == .alertFirstButtonReturn
     }
@@ -104,21 +104,21 @@ class MainViewController: NSViewController, NSTableViewDelegate, NSTableViewData
 extension MainViewController: AddTranslationDelegate {
     func addTranslation(key: String, value: String, isEditMode: Bool, completion: @escaping () -> ()) {
         if key.isEmpty {
-            let _ = showAlert(question: "Error", text: "Key not inserted.", shouldShowCancelButton: false)
+            let _ = showAlert(question: NSLocalizedString("Error", comment: ""), text: NSLocalizedString("Key not inserted.", comment: ""), shouldShowCancelButton: false)
         } else if value.isEmpty {
-            let _ = showAlert(question: "Error", text: "Value not inserted.", shouldShowCancelButton: false)
+            let _ = showAlert(question: NSLocalizedString("Error", comment: ""), text: NSLocalizedString("Value not inserted.", comment: ""), shouldShowCancelButton: false)
         } else if !isEditMode && translations.contains(where: { $0.0 == key }) {
-            let _ = showAlert(question: "Error", text: "Key already exists.", shouldShowCancelButton: false)
+            let _ = showAlert(question: NSLocalizedString("Error", comment: ""), text: NSLocalizedString("Key already exists.", comment: "") , shouldShowCancelButton: false)
         } else {
             if isEditMode {
                 translations.removeAll { (oldKey, oldValue) in
                     oldKey == key
                 }
-                translations.append((key, value))
-                saveToFirebaseButton.isEnabled = true
-                stringsTableView.reloadData()
-                completion()
             }
+            translations.append((key, value))
+            saveToFirebaseButton.isEnabled = true
+            stringsTableView.reloadData()
+            completion()
         }
     }
 }
