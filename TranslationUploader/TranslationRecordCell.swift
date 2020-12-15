@@ -6,7 +6,7 @@ class TranslationRecordCell: NSTableCellView {
     @IBOutlet weak var valueLabel: NSTextField!
     @IBOutlet weak var separatorView: NSView!
 
-    var removeRecord: ((_ key: String) -> ())?
+    var editRecord: ((String, String) -> ())?
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -15,8 +15,8 @@ class TranslationRecordCell: NSTableCellView {
         separatorView.layer?.backgroundColor = NSColor.lightGray.cgColor
     }
     
-    @IBAction func removeRecordTapped(_ sender: Any) {
-        removeRecord?(keyLabel.stringValue)
+    @IBAction func editRecordTapped(_ sender: Any) {
+        editRecord?(keyLabel.stringValue, valueLabel.stringValue)
     }
 
     func set(record: (String, String)) {

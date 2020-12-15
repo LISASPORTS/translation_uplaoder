@@ -1,60 +1,49 @@
 import Cocoa
 import FirebaseStorage
 
+extension String: Error {}
+
 final class TranslationsUploaderFirebaseService {
 
-    func uploadNewTranslations(translations: [(String, String)], forDevelop: Bool, completion: @escaping ()->()) {
-        let translationFileName = forDevelop ? "texts_2_dev_nl.json" : "texts_2_nl.json"
-        do {
-            let translationFileReference = Storage.storage().reference().child(translationFileName)
-            translationFileReference.getData(maxSize: 1 * 1024 * 1024) { [weak self] (data, error) in
-                if let error = error {
-                    self?.showAlert(question: "Error", text: error.localizedDescription)
-                } else if let data = data {
-                    if self?.validateNewTranslations(for: data, translations: translations) ?? false {
-                        self?.addNewTranslations(to: data, translations: translations, fileName: translationFileName, completion: completion)
+    func getTranslationsFileNames(completion: @escaping ([String])->()) {
+        Storage.storage().reference().listAll { (result, error) in
+            completion(result.items.map { $0.name })
+        }
+    }
+
+    func getTranslationJson(translationFileName: String, completion: @escaping ([String: String])->()) {
+        let translationFileReference = Storage.storage().reference().child(translationFileName)
+
+        translationFileReference.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                debugPrint("Could not load language file \(translationFileName): \(error)")
+            } else if let data = data {
+                do {
+                    if let translationsJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String] {
+                        completion(translationsJSON)
                     }
+
+                } catch let error {
+                    print("Language file \(translationFileName) parsing failed with error: \(error)")
                 }
             }
         }
     }
 
-    private func validateNewTranslations(for data: Data, translations: [(String, String)]) -> Bool {
-        do {
-            if let dictionaryData = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String] {
-                var areKeysUnique: Bool = true
-                translations.forEach {
-                    let key = $0.0
-                    if dictionaryData.keys.contains(key) {
-                        areKeysUnique = false
-                        showAlert(question: "Key already exists", text: "Translation file contains already key \"\(key)\", please change it")
-                    }
-                }
-                return areKeysUnique
-            }
-        } catch let error {
-            showAlert(question: "Error", text: error.localizedDescription)
-        }
-        showAlert(question: "Error", text: "Something went wrong")
-        return false
-    }
-
-    private func addNewTranslations(to data: Data, translations: [(String, String)], fileName: String, completion: ()->()) {
-        var stringData = String(decoding: data, as: UTF8.self)
-        stringData.removeLast(3)
-        stringData.append(",")
+    func uploadNewTranslations(translations: [(String, String)], translationFileName: String, completion: ()->()) {
+        var stringData = "{\n"
         translations.forEach {
             let key = $0.0
             let value = $0.1
-            let newKeyValue = "\n  \"\(key)\": \"\(value)\","
+            let newKeyValue = "  \"\(key)\": \"\(value)\",\n"
             stringData.append(newKeyValue)
         }
-        stringData.removeLast(1)
+        stringData.removeLast(2)
         stringData.append("\n}")
         stringData.append("\n")
 
         if let dataFromString = stringData.data(using: .utf8), validateNewDataFile(data: dataFromString) {
-            let translationFileReference = Storage.storage().reference().child(fileName)
+            let translationFileReference = Storage.storage().reference().child(translationFileName)
             let metadata = StorageMetadata()
             metadata.contentType = "application/json"
             translationFileReference.putData(dataFromString, metadata: metadata)

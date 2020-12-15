@@ -12,8 +12,9 @@
 		D342C71E2567D39000E88E76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D342C71D2567D39000E88E76 /* Assets.xcassets */; };
 		D342C7212567D39000E88E76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D342C71F2567D39000E88E76 /* Main.storyboard */; };
 		D342C7342568054400E88E76 /* TranslationRecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D342C7332568054400E88E76 /* TranslationRecordCell.swift */; };
-		D38EF38025758EA50001C6F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D38EF37F25758EA50001C6F1 /* GoogleService-Info.plist */; };
+		D3A7A21E25878BC5004C8217 /* AddTranslationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A7A21D25878BC5004C8217 /* AddTranslationViewController.swift */; };
 		D3F4D4FD2569915B00BB4728 /* TranslationsUploaderFirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F4D4FC2569915B00BB4728 /* TranslationsUploaderFirebaseService.swift */; };
+		D3F5D179257FA9D900D20C17 /* FileSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5D178257FA9D900D20C17 /* FileSelectorViewController.swift */; };
 		FF9D068E328938BA987DE32F /* Pods_TranslationUploader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2ABD2FF61EDDADB6CB9E78C /* Pods_TranslationUploader.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,9 +29,10 @@
 		D342C7222567D39000E88E76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D342C7232567D39100E88E76 /* TranslationUploader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TranslationUploader.entitlements; sourceTree = "<group>"; };
 		D342C7332568054400E88E76 /* TranslationRecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationRecordCell.swift; sourceTree = "<group>"; };
-		D38EF37F25758EA50001C6F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D3A7A21D25878BC5004C8217 /* AddTranslationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTranslationViewController.swift; sourceTree = "<group>"; };
 		D3F4D4E325698E8000BB4728 /* FirebaseStorage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseStorage.framework; path = TranslationUploader/Carthage/Build/iOS/FirebaseStorage.framework; sourceTree = "<group>"; };
 		D3F4D4FC2569915B00BB4728 /* TranslationsUploaderFirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationsUploaderFirebaseService.swift; sourceTree = "<group>"; };
+		D3F5D178257FA9D900D20C17 /* FileSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSelectorViewController.swift; sourceTree = "<group>"; };
 		E2ABD2FF61EDDADB6CB9E78C /* Pods_TranslationUploader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TranslationUploader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -78,12 +80,13 @@
 			children = (
 				D342C7192567D38E00E88E76 /* AppDelegate.swift */,
 				D342C71B2567D38E00E88E76 /* MainViewController.swift */,
+				D3A7A21D25878BC5004C8217 /* AddTranslationViewController.swift */,
+				D3F5D178257FA9D900D20C17 /* FileSelectorViewController.swift */,
 				D342C7332568054400E88E76 /* TranslationRecordCell.swift */,
 				D3F4D4FC2569915B00BB4728 /* TranslationsUploaderFirebaseService.swift */,
 				D342C71D2567D39000E88E76 /* Assets.xcassets */,
 				D342C71F2567D39000E88E76 /* Main.storyboard */,
 				D342C7222567D39000E88E76 /* Info.plist */,
-				D38EF37F25758EA50001C6F1 /* GoogleService-Info.plist */,
 				D342C7232567D39100E88E76 /* TranslationUploader.entitlements */,
 			);
 			path = TranslationUploader;
@@ -159,7 +162,6 @@
 			files = (
 				D342C71E2567D39000E88E76 /* Assets.xcassets in Resources */,
 				D342C7212567D39000E88E76 /* Main.storyboard in Resources */,
-				D38EF38025758EA50001C6F1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,7 +214,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3A7A21E25878BC5004C8217 /* AddTranslationViewController.swift in Sources */,
 				D3F4D4FD2569915B00BB4728 /* TranslationsUploaderFirebaseService.swift in Sources */,
+				D3F5D179257FA9D900D20C17 /* FileSelectorViewController.swift in Sources */,
 				D342C71C2567D38E00E88E76 /* MainViewController.swift in Sources */,
 				D342C7342568054400E88E76 /* TranslationRecordCell.swift in Sources */,
 				D342C71A2567D38E00E88E76 /* AppDelegate.swift in Sources */,
