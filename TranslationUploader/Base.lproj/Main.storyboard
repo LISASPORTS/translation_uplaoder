@@ -707,11 +707,11 @@
             <objects>
                 <viewController storyboardIdentifier="MainViewController" id="XfG-lQ-9wD" customClass="MainViewController" customModule="TranslationUploader" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="280" height="442"/>
+                        <rect key="frame" x="0.0" y="0.0" width="280" height="483"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QYq-hM-X3A">
-                                <rect key="frame" x="14" y="274" width="252" height="32"/>
+                                <rect key="frame" x="14" y="315" width="252" height="32"/>
                                 <buttonCell key="cell" type="push" title="Add translation" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2EM-CS-1ce">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -847,7 +847,7 @@
                                 </scroller>
                             </scrollView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ruy-yh-DjY">
-                                <rect key="frame" x="20" y="322" width="240" height="100"/>
+                                <rect key="frame" x="20" y="363" width="240" height="100"/>
                                 <clipView key="contentView" id="1DM-AF-PhB">
                                     <rect key="frame" x="1" y="1" width="238" height="98"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -921,19 +921,30 @@
                                     <action selector="saveToFirebaseTapped:" target="XfG-lQ-9wD" id="1Mi-0k-pZd"/>
                                 </connections>
                             </button>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9DN-l8-i22">
+                                <rect key="frame" x="20" y="281" width="240" height="21"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Search key/value" drawsBackground="YES" id="e83-rD-l3e">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Ruy-yh-DjY" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="0WH-vL-meh"/>
+                            <constraint firstItem="9DN-l8-i22" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="0oC-9R-Iml"/>
                             <constraint firstAttribute="trailing" secondItem="tOa-ix-rf9" secondAttribute="trailing" constant="20" id="2R0-Mv-Vbd"/>
                             <constraint firstAttribute="trailing" secondItem="Rhg-ls-OCv" secondAttribute="trailing" constant="20" id="2cg-mk-dan"/>
-                            <constraint firstItem="tOa-ix-rf9" firstAttribute="top" secondItem="QYq-hM-X3A" secondAttribute="bottom" constant="20" id="8Mn-rg-bq2"/>
                             <constraint firstAttribute="trailing" secondItem="Ruy-yh-DjY" secondAttribute="trailing" constant="20" id="OXX-V5-aHf"/>
                             <constraint firstItem="QYq-hM-X3A" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="PCH-A2-aH0"/>
                             <constraint firstAttribute="bottom" secondItem="Rhg-ls-OCv" secondAttribute="bottom" constant="20" id="XdF-gQ-cqO"/>
                             <constraint firstItem="Rhg-ls-OCv" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="ZDV-o4-iPg"/>
                             <constraint firstItem="tOa-ix-rf9" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="ZGa-dz-kRp"/>
+                            <constraint firstItem="9DN-l8-i22" firstAttribute="top" secondItem="QYq-hM-X3A" secondAttribute="bottom" constant="20" id="f1E-hN-urd"/>
                             <constraint firstItem="Ruy-yh-DjY" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="jHA-s9-Izu"/>
+                            <constraint firstItem="tOa-ix-rf9" firstAttribute="top" secondItem="9DN-l8-i22" secondAttribute="bottom" constant="20" id="jOF-xM-Nvn"/>
                             <constraint firstAttribute="trailing" secondItem="QYq-hM-X3A" secondAttribute="trailing" constant="20" id="ljd-bM-ncd"/>
+                            <constraint firstAttribute="trailing" secondItem="9DN-l8-i22" secondAttribute="trailing" constant="20" id="sDF-hz-32e"/>
                             <constraint firstItem="QYq-hM-X3A" firstAttribute="top" secondItem="Ruy-yh-DjY" secondAttribute="bottom" constant="20" id="sdF-7f-CEN"/>
                             <constraint firstItem="Rhg-ls-OCv" firstAttribute="top" secondItem="tOa-ix-rf9" secondAttribute="bottom" constant="20" id="tET-dd-bBo"/>
                         </constraints>
@@ -941,12 +952,13 @@
                     <connections>
                         <outlet property="fileNamesTableView" destination="VqB-iK-otw" id="tON-Vp-Yli"/>
                         <outlet property="saveToFirebaseButton" destination="Rhg-ls-OCv" id="OhO-HU-1al"/>
+                        <outlet property="searchTextField" destination="9DN-l8-i22" id="i4e-MX-3Hc"/>
                         <outlet property="stringsTableView" destination="xXp-di-Pa1" id="8F0-OP-GWt"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="175" y="835"/>
+            <point key="canvasLocation" x="211" y="786.5"/>
         </scene>
         <!--File Selector View Controller-->
         <scene sceneID="oT2-Kc-uRk">
@@ -1049,7 +1061,7 @@ Gw
                 </viewController>
                 <customObject id="wai-eR-TXo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="85" y="1232"/>
+            <point key="canvasLocation" x="699" y="786"/>
         </scene>
     </scenes>
 </document>

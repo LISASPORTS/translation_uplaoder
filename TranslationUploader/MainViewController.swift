@@ -1,12 +1,15 @@
 import Cocoa
 
 class MainViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+    var unfilteredTranslations: [(String, String)] = []
     var translations: [(String, String)] = []
     var translationsFileNames: [String] = []
 
     @IBOutlet weak var fileNamesTableView: NSTableView!
+    @IBOutlet weak var searchTextField: NSTextField!
     @IBOutlet weak var stringsTableView: NSTableView!
     @IBOutlet weak var saveToFirebaseButton: NSButton!
+    var searchPhrase = ""
 
     let firebaseUploaderService = TranslationsUploaderFirebaseService()
 
@@ -18,6 +21,8 @@ class MainViewController: NSViewController, NSTableViewDelegate, NSTableViewData
             self?.fileNamesTableView.reloadData()
         }
         saveToFirebaseButton.isEnabled = false
+        searchTextField.isEnabled = false
+        searchTextField.delegate = self
     }
 
     @IBAction func addTranslationTapped(_ sender: Any) {
@@ -37,16 +42,10 @@ class MainViewController: NSViewController, NSTableViewDelegate, NSTableViewData
     @IBAction func saveToFirebaseTapped(_ sender: Any) {
         let filename = translationsFileNames[fileNamesTableView.selectedRow]
         if filename.contains("dev") {
-            firebaseUploaderService.uploadNewTranslations(translations: translations, translationFileName: filename) { [weak self] in
-                self?.translations.removeAll()
-                self?.stringsTableView.reloadData()
-            }
+            firebaseUploaderService.uploadNewTranslations(translations: unfilteredTranslations, translationFileName: filename)
         } else {
             if showAlert(question: NSLocalizedString("Warning", comment: "production upload"), text: NSLocalizedString("You are uploading to produciton, are you sure?", comment: "")) {
-                firebaseUploaderService.uploadNewTranslations(translations: translations, translationFileName: filename) { [weak self] in
-                    self?.translations.removeAll()
-                    self?.stringsTableView.reloadData()
-                }
+                firebaseUploaderService.uploadNewTranslations(translations: unfilteredTranslations, translationFileName: filename)
             }
         }
     }
@@ -55,7 +54,7 @@ class MainViewController: NSViewController, NSTableViewDelegate, NSTableViewData
         if tableView == fileNamesTableView {
             return translationsFileNames.count
         } else {
-            return translations.count
+            return searchPhrase.isEmpty ? unfilteredTranslations.count : translations.count
         }
     }
 
@@ -67,7 +66,7 @@ class MainViewController: NSViewController, NSTableViewDelegate, NSTableViewData
         } else {
             guard let recordCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "recordCell"), owner: self) as? TranslationRecordCell else { return nil }
 
-            let item = translations[row]
+            let item = searchPhrase.isEmpty ? unfilteredTranslations[row] : translations[row]
             let key = item.0
             let value = item.1
             recordCell.set(record: (key, value))
@@ -81,8 +80,9 @@ class MainViewController: NSViewController, NSTableViewDelegate, NSTableViewData
     func tableViewSelectionDidChange(_ notification: Notification) {
         if let tableView = notification.object as? NSTableView {
             firebaseUploaderService.getTranslationJson(translationFileName: translationsFileNames[tableView.selectedRow]) { [weak self] json in
-                self?.translations = json.map { ($0.key, $0.value) }
+                self?.unfilteredTranslations = json.map { ($0.key, $0.value) }
                 self?.saveToFirebaseButton.isEnabled = false
+                self?.searchTextField.isEnabled = true
                 self?.stringsTableView.reloadData()
             }
         }
@@ -99,6 +99,13 @@ class MainViewController: NSViewController, NSTableViewDelegate, NSTableViewData
         }
         return alert.runModal() == .alertFirstButtonReturn
     }
+
+    func filterStrings() {
+        translations = unfilteredTranslations.filter {
+            $0.0.lowercased().contains(searchPhrase.lowercased()) ||
+                $0.1.lowercased().contains(searchPhrase.lowercased()) }
+        stringsTableView.reloadData()
+    }
 }
 
 extension MainViewController: AddTranslationDelegate {
@@ -107,18 +114,28 @@ extension MainViewController: AddTranslationDelegate {
             let _ = showAlert(question: NSLocalizedString("Error", comment: ""), text: NSLocalizedString("Key not inserted.", comment: ""), shouldShowCancelButton: false)
         } else if value.isEmpty {
             let _ = showAlert(question: NSLocalizedString("Error", comment: ""), text: NSLocalizedString("Value not inserted.", comment: ""), shouldShowCancelButton: false)
-        } else if !isEditMode && translations.contains(where: { $0.0 == key }) {
+        } else if !isEditMode && unfilteredTranslations.contains(where: { $0.0 == key }) {
             let _ = showAlert(question: NSLocalizedString("Error", comment: ""), text: NSLocalizedString("Key already exists.", comment: "") , shouldShowCancelButton: false)
         } else {
             if isEditMode {
-                translations.removeAll { (oldKey, oldValue) in
+                unfilteredTranslations.removeAll { (oldKey, oldValue) in
                     oldKey == key
                 }
             }
-            translations.append((key, value))
+            unfilteredTranslations.append((key, value))
             saveToFirebaseButton.isEnabled = true
+            filterStrings()
             stringsTableView.reloadData()
             completion()
+        }
+    }
+}
+
+extension MainViewController: NSTextFieldDelegate {
+    func controlTextDidChange(_ obj: Notification) {
+        if let textfield = obj.object as? NSTextField, textfield == searchTextField {
+            searchPhrase = textfield.stringValue
+            filterStrings()
         }
     }
 }
