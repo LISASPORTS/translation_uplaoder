@@ -30,7 +30,7 @@ final class TranslationsUploaderFirebaseService {
         }
     }
 
-    func uploadNewTranslations(translations: [(String, String)], translationFileName: String, completion: ()->()) {
+    func uploadNewTranslations(translations: [(String, String)], translationFileName: String) {
         var stringData = "{\n"
         translations.forEach {
             let key = $0.0
@@ -48,7 +48,6 @@ final class TranslationsUploaderFirebaseService {
             metadata.contentType = "application/json"
             translationFileReference.putData(dataFromString, metadata: metadata)
             showAlert(question: NSLocalizedString("Success!", comment: "translations file uploaded"), text: NSLocalizedString("Successfully added new translations", comment: ""))
-            completion()
         }
     }
 
